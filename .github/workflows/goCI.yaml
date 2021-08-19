@@ -42,9 +42,14 @@ jobs:
         with:
           name: app
           path: .
-      - name: docker auth 
-        run: echo "$docker_password" | docker login --username "$docker_username" --password-stdin
-      - name: docker build backend-image
-        run: docker build -t "${docker_username}/${docker-image-backend}:latest .backend/"
-      - name: docker build frontend-image
-        run: docker build -t "${docker_username}/${docker-image-frontend}:latest .frontend/"
+      - name: docker auth
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/app:latest
