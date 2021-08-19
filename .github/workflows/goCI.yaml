@@ -1,4 +1,9 @@
 name: GO CI
+env:
+  docker_username: ${{ secrets.DOCKER_USERNAME }}
+  docker_password: ${{ secrets.DOCKER_PASSWORD }}
+  docker-image-backend: ${{ secrets.DOCKER_IMAGE_BACKEND }}
+  docker-image-frotend: ${{ secrets.DOCKER_IMAGE_FRONTEND }}
 on: 
   push:
     branches:
@@ -28,4 +33,19 @@ jobs:
           path: .
       - name: test main.go 
         run: cd frontend/ && go test
-        
+  publish-images:
+    needs: test-code
+    runs-on: ubuntu-latest
+    steps:
+      - name: download-artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: app
+          path: .
+      - name: docker auth 
+        run: echo "$docker_password" | docker login --username "$docker_username" --password-stdin
+      - name: docker build backend-image
+        run: docker build -t "${docker_username}/${docker-image-backend}:latest .backend/"
+      - name: docker build frontend-image
+        run: docker build -t "${docker_username}/${docker-image-frontend}:latest .frontend/"
+      - name: upload frontend docker image  
