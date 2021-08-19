@@ -1,0 +1,23 @@
+# a comment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend         # arbitrary label on deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:        # labels the replica selector should match
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend      # label for replica selector to match
+        version: #version  # arbitrary label we can match on elsewhere
+    spec:
+      containers:
+      - name: backend
+        image: #image location
+        ports:
+        - containerPort: 80
