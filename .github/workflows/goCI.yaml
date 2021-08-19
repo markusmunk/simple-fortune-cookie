@@ -7,7 +7,7 @@ env:
 on: 
   push:
     branches:
-      - ci-for-dev
+      - dev
 jobs:
   checkout-frontend:
     runs-on: ubuntu-latest
