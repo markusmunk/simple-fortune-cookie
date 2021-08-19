@@ -13,4 +13,5 @@ jobs:
     runs-on: self-hosted
     steps:
       - run: kubectl config view
+      #afterwards we can apply changes on deployments and stuff with a rollout technique
      
