@@ -52,4 +52,4 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: markusmunk/app:latest
+          tags: ${docker-image-backend}:latest
