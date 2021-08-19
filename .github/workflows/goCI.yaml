@@ -17,14 +17,15 @@ jobs:
           name: app
           path: .
   test-code:
-      runs-on: ubuntu-latest
-      container: golang:latest
-      steps:
-        - name: download-artifact
-          uses: actions/download-artifact@v2
-          with:
-            name: app
-            path: .
-        - name: test main.go 
-          run: go test
-          
+    needs: build-frontend
+    runs-on: ubuntu-latest
+    container: golang:latest
+    steps:
+      - name: download-artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: app
+          path: .
+      - name: test main.go 
+        run: go test
+        
