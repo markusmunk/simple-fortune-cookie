@@ -9,20 +9,18 @@ on:
     branches:
       - ci-for-dev
 jobs:
-  build-frontend:
+  checkout-frontend:
     runs-on: ubuntu-latest
     container: golang:latest
     steps:
       - uses: actions/checkout@v2
-      - name: build frontend
-        run: cd frontend/ && go build
       - name: upload build
         uses: actions/upload-artifact@v2
         with:
           name: app
           path: .
   test-code:
-    needs: build-frontend
+    needs: checkout-frontend
     runs-on: ubuntu-latest
     container: golang:latest
     steps:
