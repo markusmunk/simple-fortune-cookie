@@ -3,7 +3,7 @@ env:
   docker_username: ${{ secrets.DOCKER_USERNAME }}
   docker_password: ${{ secrets.DOCKER_PASSWORD }}
   docker-image-backend: ${{ secrets.DOCKER_IMAGE_BACKEND }}
-  docker-image-frotend: ${{ secrets.DOCKER_IMAGE_FRONTEND }}
+  docker-image-frontend: ${{ secrets.DOCKER_IMAGE_FRONTEND }}
 on: 
   push:
     branches:
@@ -50,4 +50,4 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: ${docker-image-backend}:latest
+          tags: ${{ docker-image-backend }}:latest
