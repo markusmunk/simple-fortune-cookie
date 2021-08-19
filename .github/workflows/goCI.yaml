@@ -2,13 +2,15 @@ name: GO CI
 on: 
   push:
     branches:
-      - dev
+      - ci-for-dev
 jobs:
   test-code:
       runs-on: ubuntu-latest
       container: golang:latest
       steps:
         - uses: actions/checkout@v2
+        - run: pwd
+        - run: ls
         - run: cd frontend/
         - name: test main.go 
           run: go test
