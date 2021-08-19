@@ -48,4 +48,3 @@ jobs:
         run: docker build -t "${docker_username}/${docker-image-backend}:latest .backend/"
       - name: docker build frontend-image
         run: docker build -t "${docker_username}/${docker-image-frontend}:latest .frontend/"
-      - name: upload frontend docker image  
