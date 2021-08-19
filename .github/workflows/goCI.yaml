@@ -1,7 +1,59 @@
 name: GO CI
-on: push
+env:
+  docker_username: ${{ secrets.DOCKER_USERNAME }}
+  docker_password: ${{ secrets.DOCKER_PASSWORD }}
+  docker-image-backend: ${{ secrets.DOCKER_IMAGE_BACKEND }}
+  docker-image-frontend: ${{ secrets.DOCKER_IMAGE_FRONTEND }}
+on: 
+  push:
+    branches:
+      - dev
 jobs:
-  Clone-down:
-      runs-on: ubuntu-latest
-      container: gradle:6-jdk11
-      steps:
+  checkout-frontend:
+    runs-on: ubuntu-latest
+    container: golang:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: upload build
+        uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: .
+  test-code:
+    needs: checkout-frontend
+    runs-on: ubuntu-latest
+    container: golang:latest
+    steps:
+      - name: download-artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: app
+          path: .
+      - name: test main.go 
+        run: cd frontend/ && go test
+  publish-images:
+    needs: test-code
+    runs-on: ubuntu-latest
+    steps:
+      - name: download-artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: app
+          path: .
+      - name: docker auth
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push backend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          push: true
+          tags: "${{ secrets.DOCKER_IMAGE_BACKEND }}:latest"
+      - name: Build and push frontend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          push: true
+          tags: "${{ secrets.DOCKER_IMAGE_FRONTEND }}:latest"
