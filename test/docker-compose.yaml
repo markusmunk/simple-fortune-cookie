@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  frontend:
+    image: markusmunk/frontend:0.1
+    ports:
+      - 8080:8080
+    environment:
+      - BACKEND_DNS=backend
+    depends_on:
+      - backend
+  backend:
+    image: markusmunk/backend:0.1
+    environment:
+      - REDIS_DNS=database
+    ports:
+      - 9000:9000
+    depends_on:
+      - database
+  database:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data:rw
+volumes:
+  redis:
