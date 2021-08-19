@@ -27,5 +27,5 @@ jobs:
           name: app
           path: .
       - name: test main.go 
-        run: go test
+        run: cd frontend/ && go test
         
