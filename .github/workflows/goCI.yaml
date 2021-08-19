@@ -50,4 +50,4 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: "${{ secrets.DOCKER_IMAGE_BACKEND }}:latest"
+          tags: "${{ secrets.DOCKER_IMAGE_BACKEND }}:$GITHUB_SHA"
