@@ -50,4 +50,4 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: ${{ docker-image-backend }}:latest
+          tags: "${{ secrets.DOCKER_IMAGE_BACKEND }}:latest"
