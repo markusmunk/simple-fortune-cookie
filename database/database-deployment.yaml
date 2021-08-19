@@ -14,8 +14,15 @@ spec:
       labels:
         app: database      # label for replica selector to match
     spec:
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: pvc-database
       containers:
       - name: database
         image: redis:latest
         ports:
         - containerPort: 6379
+        volumeMounts:
+        - mountPath: "/data"
+          name: redis-data
