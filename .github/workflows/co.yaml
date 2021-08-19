@@ -1,0 +1,16 @@
+name: CO main
+env:
+  docker_username: ${{ secrets.DOCKER_USERNAME }}
+  docker_password: ${{ secrets.DOCKER_PASSWORD }}
+  docker-image-backend: ${{ secrets.DOCKER_IMAGE_BACKEND }}
+  docker-image-frontend: ${{ secrets.DOCKER_IMAGE_FRONTEND }}
+on: 
+  push:
+    branches:
+      - co-for-main
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - run: kubectl config view
+     
