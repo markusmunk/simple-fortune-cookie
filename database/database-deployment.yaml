@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  labels:
+    app: database         # arbitrary label on deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:        # labels the replica selector should match
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database      # label for replica selector to match
+    spec:
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: pvc-database
+      containers:
+      - name: database
+        image: redis:latest
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - mountPath: "/data"
+          name: redis-data
