@@ -1,7 +1,15 @@
 name: GO CI
-on: push
+on: 
+  push:
+    branches:
+      - dev
 jobs:
-  Clone-down:
+  test-code:
       runs-on: ubuntu-latest
-      container: gradle:6-jdk11
+      container: golang:latest
       steps:
+        - uses: actions/checkout@v2
+        - run: cd frontend/
+        - name: test main.go 
+          run: go test
+          
