@@ -11,7 +11,7 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    app: backend
+    app: frontend
   type: NodePort
 status:
   loadBalancer: {}
