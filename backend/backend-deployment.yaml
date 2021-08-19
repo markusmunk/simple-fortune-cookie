@@ -14,10 +14,9 @@ spec:
     metadata:
       labels:
         app: backend      # label for replica selector to match
-        version: #version  # arbitrary label we can match on elsewhere
     spec:
       containers:
       - name: backend
-        image: #image location
+        image: markusmunk/backend:0.1
         ports:
-        - containerPort: 80
+        - containerPort: 9000
