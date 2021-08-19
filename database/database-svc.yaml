@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: database
-  name: backend-service
+  name: database-service
 spec:
   ports:
   - port: 6379
