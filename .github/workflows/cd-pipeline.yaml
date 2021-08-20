@@ -66,10 +66,13 @@ jobs:
         with:
           name: app
           path: .
+      - run: cat ./frontend/frontend-deployment.yaml
       - name: alter deployment yaml file
-        run: grep -rl 'frontend:.*' ./frontend/frontend-deployment.yaml | xargs sed -i 's/frontend:.*/frontend:/g'    
+        run: grep -rl 'frontend:.*' ./frontend/frontend-deployment.yaml | xargs sed -i 's/frontend:.*/frontend:/g'  
+      - run: cat ./frontend/frontend-deployment.yaml
       - name: more altering
         run: sed -i '/frontend:/s/$/${{ github.sha }}/' ./frontend/frontend-deployment.yaml
+      - run: cat ./frontend/frontend-deployment.yaml
 #      - name: Set new backend image
 #        run: kubectl --kubeconfig=./.kube/config set image backend=${{ secrets.DOCKER_IMAGE_BACKEND }}:${{ github.sha }} -f ./backend/backend-deployment.yaml 
 #        env:
