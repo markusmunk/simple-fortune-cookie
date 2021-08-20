@@ -66,11 +66,15 @@ jobs:
         with:
           name: app
           path: .
-      - name: Set new backend image
-        run: kubectl --kubeconfig=./.kube/config set image backend=${{ secrets.DOCKER_IMAGE_BACKEND }}:${{ github.sha }} -f ./backend/backend-deployment.yaml 
-        env:
-          docker-image-backend: ${{ secrets.DOCKER_IMAGE_BACKEND }} 
-      - name: Set new frontend image
-        run: kubectl --kubeconfig=./.kube/config set image frontend=${{ secrets.DOCKER_IMAGE_FRONTEND }}:${{ github.sha }} -f ./frontend/frontend-deployment.yaml
-        env:
-          docker-image-frontend: ${{ secrets.DOCKER_IMAGE_FRONTEND }}
+      - name: alter deployment yaml file
+          run: grep -rl 'frontend:.*' ./frontend/frontend-deployment.yaml | xargs sed -i 's/frontend:.*/frontend:/g'    
+      - name: more altering
+        run: sed -i '/frontend:/s/$/${{ github.sha }}/' ./frontend/frontend-deployment.yaml
+#      - name: Set new backend image
+#        run: kubectl --kubeconfig=./.kube/config set image backend=${{ secrets.DOCKER_IMAGE_BACKEND }}:${{ github.sha }} -f ./backend/backend-deployment.yaml 
+#        env:
+#          docker-image-backend: ${{ secrets.DOCKER_IMAGE_BACKEND }} 
+#      - name: Set new frontend image
+#        run: kubectl --kubeconfig=./.kube/config set image frontend=${{ secrets.DOCKER_IMAGE_FRONTEND }}:${{ github.sha }} -f ./frontend/frontend-deployment.yaml
+#        env:
+#          docker-image-frontend: ${{ secrets.DOCKER_IMAGE_FRONTEND }}

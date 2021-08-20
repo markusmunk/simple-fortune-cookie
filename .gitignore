@@ -5,4 +5,5 @@ backend/backend
 frontend/frontend
 
 #no kubeconfig on git pls
+*.txt
 kubeconfig.txt
