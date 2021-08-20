@@ -67,7 +67,7 @@ jobs:
           name: app
           path: .
       - name: alter deployment yaml file
-          run: grep -rl 'frontend:.*' ./frontend/frontend-deployment.yaml | xargs sed -i 's/frontend:.*/frontend:/g'    
+        run: grep -rl 'frontend:.*' ./frontend/frontend-deployment.yaml | xargs sed -i 's/frontend:.*/frontend:/g'    
       - name: more altering
         run: sed -i '/frontend:/s/$/${{ github.sha }}/' ./frontend/frontend-deployment.yaml
 #      - name: Set new backend image
