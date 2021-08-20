@@ -68,14 +68,25 @@ jobs:
         with:
           name: app
           path: .
-      - run: cat ./frontend/frontend-deployment.yaml
-      - name: alter deployment yaml file
+      
+      - name: alter frontend deployment yaml file
         run: grep -rl 'frontend:.*' ./frontend/frontend-deployment.yaml | xargs sed -i 's/frontend:.*/frontend:/g'  
       - run: cat ./frontend/frontend-deployment.yaml
       - name: more altering
         run: sed -i '/frontend:/s/$/${{ github.sha }}/' ./frontend/frontend-deployment.yaml
       - run: cat ./frontend/frontend-deployment.yaml
+      
+      - name: alter backend deployment yaml file
+        run: grep -rl 'backend:.*' ./backend/backend-deployment.yaml | xargs sed -i 's/backend:.*/backend:/g'  
+      - run: cat ./backend/backend-deployment.yaml
+      - name: more altering
+        run: sed -i '/backend:/s/$/${{ github.sha }}/' ./backend/backend-deployment.yaml
+      - run: cat ./backend/backend-deployment.yaml
+      - run: kubectl --kubeconfig=./.kube/config apply -f ./database/database-deployment.yaml
       - run: kubectl --kubeconfig=./.kube/config apply -f ./frontend/frontend-deployment.yaml
+      - run: kubectl --kubeconfig=./.kube/config apply -f ./backend/backend-deployment.yaml
+      - run: kubectl --kubeconfig=./.kube/config rollout restart deployment/backend 
+      
 #      - name: Set new backend image
 #        run: kubectl --kubeconfig=./.kube/config set image backend=${{ secrets.DOCKER_IMAGE_BACKEND }}:${{ github.sha }} -f ./backend/backend-deployment.yaml 
 #        env:
