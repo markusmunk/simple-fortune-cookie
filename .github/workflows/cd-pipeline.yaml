@@ -10,7 +10,7 @@ env:
 on: 
   push:
     branches:
-      - co-for-main
+      - co-for-main #will be just "main" when fully implemented
 jobs:
   checkout:
     runs-on: ubuntu-latest
