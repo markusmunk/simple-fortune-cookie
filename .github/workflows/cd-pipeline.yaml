@@ -5,6 +5,8 @@ env:
   docker-image-backend: ${{ secrets.DOCKER_IMAGE_BACKEND }}
   docker-image-frontend: ${{ secrets.DOCKER_IMAGE_FRONTEND }}
   kube_config: "${{ secrets.KUBE_CONFIG }}"
+  username: "${{ secrets.USERNAME }}"
+  email: "${{ secrets.EMAIL }}"
 on: 
   push:
     branches:
@@ -73,6 +75,16 @@ jobs:
       - name: more altering
         run: sed -i '/frontend:/s/$/${{ github.sha }}/' ./frontend/frontend-deployment.yaml
       - run: cat ./frontend/frontend-deployment.yaml
+
+      - name: Commit report
+        run: |
+          git config --global user.name '${{ secrets.USERNAME }}'
+          git config --global user.email '${{ secrets.EMAIL }}'
+          git commit -am "Updated version on docker image on deployment.yaml"
+          git push
+        env:
+          username: "${{ secrets.USERNAME }}"
+          email: "${{ secrets.EMAIL }}"
 #      - name: Set new backend image
 #        run: kubectl --kubeconfig=./.kube/config set image backend=${{ secrets.DOCKER_IMAGE_BACKEND }}:${{ github.sha }} -f ./backend/backend-deployment.yaml 
 #        env:
