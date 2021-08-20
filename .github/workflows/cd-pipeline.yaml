@@ -68,8 +68,7 @@ jobs:
       - name: Set new backend image
         run: kubectl --kubeconfig=./.kube/config set image backend=${{ secrets.DOCKER_IMAGE_BACKEND }}:${{ github.sha }} -f ./backend/backend-deployment.yaml 
         env:
-          docker-image-backend: ${{ secrets.DOCKER_IMAGE_BACKEND }}
-          
+          docker-image-backend: ${{ secrets.DOCKER_IMAGE_BACKEND }} 
       - name: Set new frontend image
         run: kubectl --kubeconfig=./.kube/config set image frontend=${{ secrets.DOCKER_IMAGE_FRONTEND }}:${{ github.sha }} -f ./frontend/frontend-deployment.yaml
         env:
