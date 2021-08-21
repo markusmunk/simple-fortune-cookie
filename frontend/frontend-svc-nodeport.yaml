@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: frontend
-  name: fronted-service
+  name: frontend-service
 spec:
   ports:
   - port: 8080
